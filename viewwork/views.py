@@ -17,7 +17,9 @@ class MenuView(View):
     http_method_names = ['get']
 
     def get(self, request):
-        menu_items = Menu.objects.all().values('id', 'parent_id', 'name', url=F('view'))
+        menu_items = Menu.objects.all().values(
+            'id', 'parent_id', 'name', url=F('view')
+        ).order_by('parent_id', 'sort_order', 'name')
         data = []
         for item in menu_items:
             if item['url']:
