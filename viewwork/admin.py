@@ -26,10 +26,10 @@ class ParentListFilter(admin.SimpleListFilter):
 class MenuAdmin(admin.ModelAdmin):
     form = MenuAdminForm
     list_display = ('parent', 'name', 'view', 'sort_order',)
-    list_editable = ('sort_order', 'view')
+    list_editable = ('sort_order',)
     list_display_links = ('name',)
     list_filter = (ParentListFilter,)
-    search_fields = ['name', 'view',]
+    search_fields = ('name', 'view',)
     ordering = ('parent', 'name', 'sort_order',)
 
 
