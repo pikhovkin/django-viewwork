@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+try:
+    from guardian.admin import GuardedModelAdmin as ModelAdmin
+except (ImportError, ModuleNotFoundError):
+    ModelAdmin = admin.ModelAdmin
+
 from .models import Menu
 from .forms import MenuAdminForm
 
@@ -23,7 +28,7 @@ class ParentListFilter(admin.SimpleListFilter):
             return queryset.filter(parent=val)
 
 
-class MenuAdmin(admin.ModelAdmin):
+class MenuAdmin(ModelAdmin):
     form = MenuAdminForm
     list_display = ('parent', 'name', 'view', 'sort_order',)
     list_editable = ('sort_order',)
