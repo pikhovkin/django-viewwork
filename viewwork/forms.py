@@ -1,8 +1,11 @@
-from easy_select2 import Select2
-
 from django import forms
 from django.db.models import BLANK_CHOICE_DASH
 from django.utils.translation import ugettext_lazy as _
+
+try:
+    from easy_select2 import Select2
+except (ImportError, ModuleNotFoundError):
+    Select2 = forms.Select
 
 from . import BaseViewWork
 from .models import Menu

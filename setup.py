@@ -20,7 +20,9 @@ def get_version(*file_paths):
 
 version = get_version('viewwork', '__init__.py')
 readme = open('README.md').read()
-requirements = open('requirements.txt').readlines()
+requirements = open('requirements/base.txt').readlines()
+require_select2 = open('requirements/select2.txt').readlines()
+require_all = requirements + require_select2
 
 setup(
     name='django-viewwork',
@@ -36,6 +38,10 @@ setup(
     ],
     include_package_data=True,
     install_requires=requirements,
+    extras_require={
+        'all': require_all,
+        'select2': require_select2,
+    },
     python_requires='>=3.8.*, <4.0.*',
     license='MIT',
     zip_safe=False,
