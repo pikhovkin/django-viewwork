@@ -10,7 +10,7 @@ __all__ = (
     'default_app_config',
     'BaseViewWork',
 )
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 
 default_app_config = 'viewwork.apps.ViewWorkConfig'
