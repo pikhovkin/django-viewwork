@@ -1,6 +1,14 @@
 from django.views.generic import View
 from django.http import JsonResponse
 from django.urls import reverse, NoReverseMatch
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
+from django.db.models import Q
+
+try:
+    from guardian.shortcuts import get_objects_for_user
+except (ImportError, ModuleNotFoundError):
+    get_objects_for_user = None
 
 from .models import Menu
 from .utils import build_nested_tree
@@ -16,7 +24,14 @@ class MenuView(View):
     http_method_names = ['get']
 
     def get_queryset(self):
-        return Menu.objects.all().values(
+        if not get_objects_for_user or self.request.user.is_superuser:
+            menu = Menu.objects.all()
+        else:
+            menu_items = get_objects_for_user(
+                self.request.user, 'viewwork.view_menu'
+            ).values_list('pk', flat=True)
+            menu = Menu.objects.filter(Q(pk__in=menu_items) | Q(view=''))
+        return menu.values(
             'id', 'parent_id', 'name', 'view'
         ).order_by('parent_id', 'sort_order', 'name')
 

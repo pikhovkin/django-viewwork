@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'viewwork',
     'easy_select2',
 
-    'tests.apps.TestsConfig',
+    'tests.testapp.apps.TestAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = 'tests.conf.urls'
 
 TEMPLATES = [
     {

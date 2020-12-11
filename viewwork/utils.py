@@ -1,8 +1,10 @@
-def build_nested_tree(raw_items,
-                      parent_name='parent_id',
-                      children_name='items',
-                      id_name='id',
-                      parent_null=None):
+def build_nested_tree(
+        raw_items,
+        parent_name='parent_id',
+        children_name='items',
+        id_name='id',
+        parent_null=None
+):
     parent_null = parent_null or 0
     nodes = {item[id_name]: item for item in raw_items}
     nested_tree = []
