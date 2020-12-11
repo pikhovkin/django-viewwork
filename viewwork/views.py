@@ -12,12 +12,16 @@ except (ImportError, ModuleNotFoundError):
 
 from .models import Menu
 from .utils import build_nested_tree
+from . import settings
 
 
 __all__ = (
     'MenuView',
     'menu',
 )
+
+
+User = get_user_model()
 
 
 class MenuView(View):
@@ -35,6 +39,19 @@ class MenuView(View):
             'id', 'parent_id', 'name', 'view'
         ).order_by('parent_id', 'sort_order', 'name')
 
+    def patch_tree(self, tree):
+        if settings.ADD_USER_MENU and self.request.user.is_authenticated:
+            tree.append({
+                'id': '-2',
+                'parent_id': None,
+                'name': getattr(self.request.user, User.USERNAME_FIELD),
+                'url': '',
+                'items': [
+                    {'id': '-3', 'parent_id': '-2', 'name': _('Admin site'), 'url': settings.ADMIN_SITE_URL},
+                    {'id': '-4', 'parent_id': '-2', 'name': _('Logout'), 'url': reverse('vw_logout')},
+                ],
+            })
+
     def get(self, request, *args, **kwargs):
         menu_items = self.get_queryset()
         data = []
@@ -46,6 +63,7 @@ class MenuView(View):
                     continue
             data.append(item)
         tree = build_nested_tree(data)
+        tree = self.patch_tree(tree)
         return JsonResponse(tree, safe=False)
 
 

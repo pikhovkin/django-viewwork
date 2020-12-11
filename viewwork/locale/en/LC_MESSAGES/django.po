@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-22 20:44+0000\n"
+"POT-Creation-Date: 2020-12-11 22:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:9 models.py:12
+#: admin.py:14 models.py:12
 msgid "Parent menu item"
 msgstr ""
 
@@ -26,7 +26,7 @@ msgstr ""
 msgid "ViewWork"
 msgstr ""
 
-#: forms.py:17 models.py:15
+#: forms.py:20 models.py:15
 msgid "View"
 msgstr ""
 
@@ -48,4 +48,12 @@ msgstr ""
 
 #: models.py:20
 msgid "Menu items"
+msgstr ""
+
+#: views.py:50
+msgid "Admin site"
+msgstr ""
+
+#: views.py:51
+msgid "Logout"
 msgstr ""
