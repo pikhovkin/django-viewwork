@@ -51,6 +51,7 @@ class MenuView(View):
                     {'id': '-4', 'parent_id': '-2', 'name': _('Logout'), 'url': reverse('vw_logout')},
                 ],
             })
+        return tree
 
     def get(self, request, *args, **kwargs):
         menu_items = self.get_queryset()
