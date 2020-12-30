@@ -1,6 +1,6 @@
 from django.views.generic import View
 from django.http import JsonResponse
-from django.urls import reverse, NoReverseMatch
+from django.urls import reverse, resolve, NoReverseMatch, Resolver404
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from django.db.models import Q
@@ -61,7 +61,11 @@ class MenuView(View):
                 try:
                     item['url'] = reverse(item['view'])
                 except NoReverseMatch:
-                    continue
+                    try:
+                        resolve(item['view'])
+                        item['url'] = item['view']
+                    except Resolver404:
+                        continue
             data.append(item)
         tree = build_nested_tree(data)
         tree = self.patch_tree(tree)
