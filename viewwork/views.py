@@ -48,7 +48,7 @@ class MenuView(View):
                 'url': '',
                 'items': [
                     {'id': '-3', 'parent_id': '-2', 'name': _('Admin site'), 'url': settings.ADMIN_SITE_URL},
-                    {'id': '-4', 'parent_id': '-2', 'name': _('Logout'), 'url': reverse('vw_logout')},
+                    {'id': '-4', 'parent_id': '-2', 'name': _('Logout'), 'url': reverse('vw_logout'), 'target': '_self'},
                 ],
             })
         return tree
