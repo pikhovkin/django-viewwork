@@ -15,6 +15,11 @@ Auto-collection of views, auto-generation of urls and easy menu creation
 $ pip install django-viewwork
 ```
 
+Install with `django-easy-select2`
+```bash
+$ pip install django-viewwork[select2]
+```
+
 ### Usage
 
 ```python

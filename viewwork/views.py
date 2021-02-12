@@ -46,11 +46,18 @@ class MenuView(View):
                 'parent_id': None,
                 'name': getattr(self.request.user, User.USERNAME_FIELD),
                 'url': '',
-                'items': [
-                    {'id': '-3', 'parent_id': '-2', 'name': _('Admin site'), 'url': settings.ADMIN_SITE_URL},
-                    {'id': '-4', 'parent_id': '-2', 'name': _('Logout'), 'url': reverse('vw_logout'), 'target': '_self'},
-                ],
+                'items': [],
             })
+            if settings.ADD_ADMIN_SITE:
+                tree[-1]['items'].append({
+                    'id': '-3', 'parent_id': '-2', 'name': _('Admin site'),
+                    'url': settings.ADMIN_SITE_URL, '_url': settings.ADMIN_SITE_URL,
+                })
+            if settings.ADD_USER_LOGOUT:
+                tree[-1]['items'].append({
+                    'id': '-4', 'parent_id': '-2', 'name': _('Logout'),
+                    'url': reverse('vw_logout'), '_url': reverse('vw_logout'), 'target': '_self',
+                })
         return tree
 
     def get(self, request, *args, **kwargs):
@@ -66,6 +73,10 @@ class MenuView(View):
                         item['url'] = item['view']
                     except Resolver404:
                         continue
+                try:
+                    item['_url'] = reverse(f"{settings.VW_PREFIX}{item['view']}")
+                except NoReverseMatch:
+                    item['_url'] = item['url']
             data.append(item)
         tree = build_nested_tree(data)
         tree = self.patch_tree(tree)
