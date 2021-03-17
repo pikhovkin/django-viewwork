@@ -48,7 +48,7 @@ class MenuView(View):
                 'url': '',
                 'items': [],
             })
-            if settings.ADD_ADMIN_SITE:
+            if settings.ADD_ADMIN_SITE and self.request.user.is_staff:
                 tree[-1]['items'].append({
                     'id': '-3', 'parent_id': '-2', 'name': _('Admin site'),
                     'url': settings.ADMIN_SITE_URL, '_url': settings.ADMIN_SITE_URL,
