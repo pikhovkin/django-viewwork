@@ -29,7 +29,7 @@ class ViewWorkConfig(AppConfig):
     def collect_views(self, app: AppConfig):
         app_name = app.module.__name__
         import_module(f'{app_name}.views')
-        for entry in pkgutil.walk_packages([Path(app.path) / 'views'], f'{app_name}.views.'):
+        for entry in pkgutil.walk_packages([str(Path(app.path) / 'views')], f'{app_name}.views.'):
             import_module(entry.name)
 
     def ready(self):
