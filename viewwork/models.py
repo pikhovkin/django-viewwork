@@ -18,6 +18,10 @@ class Menu(models.Model):
     class Meta:
         verbose_name = _('Menu item')
         verbose_name_plural = _('Menu items')
+        permissions = [
+            ('view_full_access', _('View full access')),
+            ('view_read_only', _('View read only')),
+        ]
 
     def __str__(self):
         return self.name
