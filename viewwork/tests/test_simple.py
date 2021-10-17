@@ -74,3 +74,23 @@ class TestSimple(TestCase):
         self.assertTrue(p4.pk in ids)
         self.assertTrue(item1.pk in ids)
         self.assertTrue(item2.pk in ids)
+
+
+class TestAppView(TestCase):
+    def test_func_page(self):
+        response = self.client.get('/app/page/')
+        self.assertContains(response, 'Test page')
+
+    def test_cbv_page(self):
+        response = self.client.get('/app/test_app_vw_page/')
+        self.assertContains(response, 'Test app page')
+
+
+class TestAppsView(TestCase):
+    def test_app1_page(self):
+        response = self.client.get('/app1/test_app1_vw_page/')
+        self.assertContains(response, 'Test app1 page')
+
+    def test_app2_page(self):
+        response = self.client.get('/app2/test_app2_vw_page/')
+        self.assertContains(response, 'Test app2 page')

@@ -22,6 +22,7 @@ class ViewWorkConfig(AppConfig):
         urlpatterns = [
             path(f'{name}/', view_class.as_view(), name=name)
             for name, view_class in BaseViewWork.vw['all_views'].items()
+            if view_class.__module__.startswith(app.module.__name__)
         ]
         urls = import_module(f'{app.module.__name__}.urls')
         urls.urlpatterns += urlpatterns

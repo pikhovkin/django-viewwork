@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'easy_select2',
 
     'tests.testapp.apps.TestAppConfig',
+    'tests.test_apps.app1.apps.TestApp1Config',
+    'tests.test_apps.app2.apps.TestApp2Config',
 ]
 
 MIDDLEWARE = [
