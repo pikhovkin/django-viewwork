@@ -36,8 +36,8 @@ class MenuView(View):
             ).values_list('pk', flat=True)
             menu = Menu.objects.filter(Q(pk__in=menu_items) | Q(view=''))
         return menu.values(
-            'id', 'parent_id', 'name', 'view'
-        ).order_by('parent_id', 'sort_order', 'name')
+            'id', 'parent_id', 'name_i18n', 'view'
+        ).order_by('parent_id', 'sort_order', 'name_i18n')
 
     def patch_tree(self, tree):
         if settings.ADD_USER_MENU and self.request.user.is_authenticated:
@@ -77,6 +77,8 @@ class MenuView(View):
                     item['_url'] = reverse(f"{settings.VW_PREFIX}{item['view']}")
                 except NoReverseMatch:
                     item['_url'] = item['url']
+            if 'name_i18n' in item:
+                item['name'] = item.pop('name_i18n', '')
             data.append(item)
         tree = build_nested_tree(data)
         tree = self.patch_tree(tree)

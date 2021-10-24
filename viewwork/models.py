@@ -1,3 +1,5 @@
+from modeltrans.fields import TranslationField
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -15,6 +17,8 @@ class Menu(models.Model):
     view = models.CharField(_('View'), max_length=80, default='')
     sort_order = models.SmallIntegerField(_('Sort order'), default=0)
 
+    i18n = TranslationField(fields=('name',))
+
     class Meta:
         verbose_name = _('Menu item')
         verbose_name_plural = _('Menu items')
@@ -24,4 +28,4 @@ class Menu(models.Model):
         ]
 
     def __str__(self):
-        return self.name
+        return self.name_i18n
