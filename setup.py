@@ -12,7 +12,7 @@ require_all = requirements + require_select2
 
 setup(
     name='django-viewwork',
-    version='0.3.1',
+    version='0.4.0',
     description='Collect views, generate urls and create menu',
     long_description=readme,
     long_description_content_type='text/markdown',
