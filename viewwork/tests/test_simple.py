@@ -1,6 +1,7 @@
 import json
 
-from django.test import TestCase
+from django.conf import settings as dj_settings
+from django.test import TestCase, override_settings
 
 from viewwork.models import Menu
 from viewwork import settings
@@ -74,6 +75,34 @@ class TestSimple(TestCase):
         self.assertTrue(p4.pk in ids)
         self.assertTrue(item1.pk in ids)
         self.assertTrue(item2.pk in ids)
+
+    @override_settings(
+        MIDDLEWARE=dj_settings.MIDDLEWARE + ['django.middleware.locale.LocaleMiddleware'],
+        USE_I18N=True,
+        LANGUAGE_CODE='en',
+        LANGUAGES=(('en', 'English'), ('es', 'Español')),
+    )
+    def test_i18n_menu(self):
+        p1 = Menu.objects.create(name='Section1', name_es='Sección1')
+        p2 = Menu.objects.create(name='Section2', name_es='Sección2', parent=p1)
+        Menu.objects.create(name='Test page', name_es='Página de prueba', view='test_app_page', parent=p2)
+
+        response = self.client.get('/menu/')
+        self.assertContains(response, 'Section1')
+        self.assertContains(response, 'Section2')
+        self.assertContains(response, 'Test page')
+
+        self.client.post('/i18n/setlang/', {'language': 'es'})
+        response = self.client.get('/menu/')
+        self.assertContains(response, 'Secci\\u00f3n1')
+        self.assertContains(response, 'Secci\\u00f3n2')
+        self.assertContains(response, 'P\\u00e1gina de prueba')
+
+        self.client.post('/i18n/setlang/', {'language': 'ru'})
+        response = self.client.get('/menu/')
+        self.assertContains(response, 'Section1')
+        self.assertContains(response, 'Section2')
+        self.assertContains(response, 'Test page')
 
 
 class TestAppView(TestCase):
