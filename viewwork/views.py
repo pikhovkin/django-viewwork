@@ -35,7 +35,7 @@ class MenuView(View):
                 self.request.user, 'viewwork.view_menu'
             ).values_list('pk', flat=True)
             menu = Menu.objects.filter(Q(pk__in=menu_items) | Q(view=''))
-        return menu.values(
+        return menu.filter(enabled=True, hidden=False).values(
             'id', 'parent_id', 'name_i18n', 'view'
         ).order_by('parent_id', 'sort_order', 'name_i18n')
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-12 19:18+0000\n"
+"POT-Creation-Date: 2021-10-31 17:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:14 models.py:12
+#: admin.py:15 models.py:14
 msgid "Parent menu item"
 msgstr ""
 
@@ -26,7 +26,7 @@ msgstr ""
 msgid "ViewWork"
 msgstr ""
 
-#: forms.py:20 models.py:15
+#: forms.py:22 models.py:17
 msgid "View"
 msgstr ""
 
@@ -34,20 +34,36 @@ msgstr ""
 msgid " "
 msgstr " "
 
-#: models.py:14
+#: models.py:16
 msgid "Menu item name"
 msgstr ""
 
-#: models.py:16
+#: models.py:18
 msgid "Sort order"
 msgstr ""
 
 #: models.py:19
-msgid "Menu item"
+msgid "Hidden item"
 msgstr ""
 
 #: models.py:20
+msgid "Enabled item"
+msgstr ""
+
+#: models.py:25
+msgid "Menu item"
+msgstr ""
+
+#: models.py:26
 msgid "Menu items"
+msgstr ""
+
+#: models.py:28
+msgid "View full access"
+msgstr ""
+
+#: models.py:29
+msgid "View read only"
 msgstr ""
 
 #: views.py:53

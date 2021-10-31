@@ -16,6 +16,8 @@ class Menu(models.Model):
     name = models.CharField(_('Menu item name'), max_length=80)
     view = models.CharField(_('View'), max_length=80, default='')
     sort_order = models.SmallIntegerField(_('Sort order'), default=0)
+    hidden = models.BooleanField(_('Hidden item'), default=True, db_index=True)
+    enabled = models.BooleanField(_('Enabled item'), default=True, db_index=True)
 
     i18n = TranslationField(fields=('name',))
 
