@@ -36,8 +36,10 @@ class TestSimple(TestCase):
         self.assertContains(response, '[]')
         self.assertTrue(len(json.loads(response.content)) == 0)
 
+    @override_settings(
+        VW_REMOVE_EMPTY_ITEM=True,
+    )
     def test_nested_tree(self):
-        setattr(settings, 'REMOVE_EMPTY_ITEM', True)
         p1 = Menu.objects.create(name='Section1', hidden=False)
         p2 = Menu.objects.create(name='Section2', parent=p1, hidden=False)
         p3 = Menu.objects.create(name='Section3', parent=p2, hidden=False)
@@ -54,8 +56,10 @@ class TestSimple(TestCase):
         self.assertTrue(item1.pk in ids)
         self.assertTrue(item2.pk in ids)
 
+    @override_settings(
+        VW_REMOVE_EMPTY_ITEM=True,
+    )
     def test_deep_nested_tree(self):
-        setattr(settings, 'REMOVE_EMPTY_ITEM', True)
         p1 = Menu.objects.create(name='Section1', hidden=False)
         p2 = Menu.objects.create(name='Section2', parent=p1, hidden=False)
         p3 = Menu.objects.create(name='Section3', parent=p2, hidden=False)
@@ -72,8 +76,10 @@ class TestSimple(TestCase):
         self.assertTrue(item1.pk in ids)
         self.assertTrue(item2.pk in ids)
 
+    @override_settings(
+        VW_REMOVE_EMPTY_ITEM=False,
+    )
     def test_nested_empty_tree(self):
-        setattr(settings, 'REMOVE_EMPTY_ITEM', False)
         p1 = Menu.objects.create(name='Section1', hidden=False)
         p2 = Menu.objects.create(name='Section2', parent=p1, hidden=False)
         p3 = Menu.objects.create(name='Section3', parent=p2, hidden=False)
