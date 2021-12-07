@@ -13,6 +13,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '1234567890'
 
@@ -34,7 +39,7 @@ INSTALLED_APPS = [
     'easy_select2',
 
     'tests.testapp.apps.TestAppConfig',
-    'tests.test_apps.app1.apps.TestApp1Config',
+    'tests.test_apps.app1',
     'tests.test_apps.app2.apps.TestApp2Config',
 ]
 
@@ -93,6 +98,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
