@@ -1,4 +1,8 @@
+from operator import attrgetter, itemgetter
+import sys
+
 from django import forms
+from django.apps import apps
 from django.conf import settings
 from django.db.models import BLANK_CHOICE_DASH
 from django.utils.translation import gettext_lazy as _, get_language
@@ -24,12 +28,22 @@ class MenuAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MenuAdminForm, self).__init__(*args, **kwargs)
 
-        view_choices = [
-            (v.vw_name, f'{v.vw_verbose_name}: {v.vw_name}')
-            for v in sorted(BaseViewWork.vw['all_views'].values(),
-                            key=lambda sv: sv.vw_verbose_name or sv.vw_name)
-        ]
+        view_choices= []
+        vw_prefix = attrgetter('vw_prefix')
+        item1 = itemgetter(1)
+        for app_label, opts in BaseViewWork.vw.items():
+            app = apps.get_app_config(app_label)
+            urls = sys.modules[f'{app.module.__name__}.urls']
+            namespace = getattr(urls, 'app_name', None) or app.module.__name__
+            views = filter(lambda v: not vw_prefix(v[1]) or not v[0].startswith(vw_prefix(v[1])), opts.items())
+            views = list(map(item1, views))#sorted(list(map(view_class, views)), key=lambda sv: sv.vw_verbose_name or sv.vw_name)
+            options = [(f'{namespace}:{v.vw_name}', f'{v.vw_verbose_name}: {v.vw_name}') for v in views]
+            options.sort(key=item1)
+            view_choices.append((app.verbose_name, options))
+
+        view_choices.sort(key=lambda opt: opt[0])
         view_choices.insert(0, BLANK_CHOICE_DASH[0])
+
         self.fields['view'].choices = view_choices
         self.fields['parent'].queryset = Menu.objects.filter(view='').order_by('name_i18n')
         self.fields['name_i18n'].required = True

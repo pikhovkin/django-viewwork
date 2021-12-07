@@ -15,5 +15,6 @@ default_app_config = 'viewwork.apps.ViewWorkConfig'
 
 
 class BaseViewWork(TemplateView, metaclass=MetaViewWork):
-    vw = defaultdict(dict)
-    vw_abstract = True
+    vw: dict = defaultdict(dict)
+    vw_abstract: bool = True
+    vw_prefix: str = ''

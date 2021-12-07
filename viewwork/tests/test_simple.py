@@ -2,6 +2,7 @@ import json
 
 from django.conf import settings as dj_settings
 from django.test import TestCase, override_settings
+from django.urls import reverse, exceptions
 
 from viewwork.models import Menu
 from viewwork import settings
@@ -134,12 +135,26 @@ class TestAppView(TestCase):
         response = self.client.get('/app/test_app_vw_page/')
         self.assertContains(response, 'Test app page')
 
+        response = self.client.get(reverse('tests.testapp:test_app_vw_page'))
+        self.assertContains(response, 'Test app page')
+
 
 class TestAppsView(TestCase):
     def test_app1_page(self):
-        response = self.client.get('/app1/test_app1_vw_page/')
+        response = self.client.get('/app1/test_app_vw_page/')
         self.assertContains(response, 'Test app1 page')
 
+        response = self.client.get(reverse('viewwork_tests_test_apps_app1:test_app_vw_page'))
+        self.assertContains(response, 'Test app1 page')
+
+        with self.assertRaises(exceptions.NoReverseMatch):
+            reverse('test_app_vw_page')
+        with self.assertRaises(exceptions.NoReverseMatch):
+            reverse('tests.test_apps.app1:test_app_vw_page')
+
     def test_app2_page(self):
-        response = self.client.get('/app2/test_app2_vw_page/')
+        response = self.client.get('/app2/test_app_vw_page/')
+        self.assertContains(response, 'Test app2 page')
+
+        response = self.client.get(reverse('tests.test_apps.app2:test_app_vw_page'))
         self.assertContains(response, 'Test app2 page')

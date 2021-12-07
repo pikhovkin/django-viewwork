@@ -14,6 +14,9 @@ def reload_settings(setting, value, **kwargs):
     if setting == 'VW_REMOVE_EMPTY_ITEM':
         global REMOVE_EMPTY_ITEM
         REMOVE_EMPTY_ITEM = value
+    elif setting == 'VW_PREFIX':
+        global VW_PREFIX
+        VW_PREFIX = value
 
 
 setting_changed.connect(reload_settings)
