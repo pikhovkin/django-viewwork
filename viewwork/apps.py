@@ -6,7 +6,7 @@ from django.apps import AppConfig, apps
 from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
 
-from . import BaseViewWork
+from . import BaseViewWork, settings
 
 
 __all__ = (
@@ -31,7 +31,7 @@ class ViewWorkConfig(AppConfig):
             path(f'{name}/', view_class.as_view(), name=name)
             for name, view_class in BaseViewWork.vw[app.label].items()
         ]
-        if app_urls_namespace:
+        if app_urls_namespace or not settings.USE_APP_NAMESPACE:
             urls.urlpatterns += urlpatterns
         else:
             urls.urlpatterns += [path('', include((urlpatterns, app.module.__name__)))]

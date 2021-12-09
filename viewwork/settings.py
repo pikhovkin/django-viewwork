@@ -8,6 +8,7 @@ ADD_USER_LOGOUT = getattr(settings, 'VW_ADD_USER_LOGOUT', True)
 ADMIN_SITE_URL = getattr(settings, 'VW_ADMIN_SITE_URL', '/admin/')
 VW_PREFIX = getattr(settings, 'VW_PREFIX', '')
 REMOVE_EMPTY_ITEM = getattr(settings, 'VW_REMOVE_EMPTY_ITEM', True)
+USE_APP_NAMESPACE = getattr(settings, 'VW_USE_APP_NAMESPACE', True)
 
 
 def reload_settings(setting, value, **kwargs):

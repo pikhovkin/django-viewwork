@@ -13,7 +13,7 @@ try:
 except (ImportError, ModuleNotFoundError):
     Select2 = forms.Select
 
-from . import BaseViewWork
+from . import BaseViewWork, settings
 from .models import Menu
 
 
@@ -35,9 +35,10 @@ class MenuAdminForm(forms.ModelForm):
             app = apps.get_app_config(app_label)
             urls = sys.modules[f'{app.module.__name__}.urls']
             namespace = getattr(urls, 'app_name', None) or app.module.__name__
+            namespace = f'{namespace}:' if settings.USE_APP_NAMESPACE else ''
             views = filter(lambda v: not vw_prefix(v[1]) or not v[0].startswith(vw_prefix(v[1])), opts.items())
-            views = list(map(item1, views))#sorted(list(map(view_class, views)), key=lambda sv: sv.vw_verbose_name or sv.vw_name)
-            options = [(f'{namespace}:{v.vw_name}', f'{v.vw_verbose_name}: {v.vw_name}') for v in views]
+            views = list(map(item1, views))
+            options = [(f'{namespace}{v.vw_name}', f'{v.vw_verbose_name}: {v.vw_name}') for v in views]
             options.sort(key=item1)
             view_choices.append((app.verbose_name, options))
 
