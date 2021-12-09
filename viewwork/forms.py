@@ -3,7 +3,7 @@ import sys
 
 from django import forms
 from django.apps import apps
-from django.conf import settings
+from django.conf import settings as dj_settings
 from django.db.models import BLANK_CHOICE_DASH
 from django.utils.translation import gettext_lazy as _, get_language
 
@@ -66,7 +66,7 @@ class MenuAdminForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        for lang in {get_language(), settings.LANGUAGE_CODE}:
+        for lang in {get_language(), dj_settings.LANGUAGE_CODE}:
             field_name = build_localized_fieldname('name', lang)
             cleaned_data[field_name] = self._strip(cleaned_data.get(field_name)) or cleaned_data.get('name_i18n', '')
         return cleaned_data
