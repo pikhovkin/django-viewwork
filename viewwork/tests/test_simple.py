@@ -125,6 +125,17 @@ class TestSimple(TestCase):
         self.assertContains(response, 'Section2')
         self.assertContains(response, 'Test page')
 
+    def test_url_pages_with_prefix(self):
+        item1 = Menu.objects.create(name='Test app page', view='tests.testapp:test_app_vw_page', hidden=False)
+        item2 = Menu.objects.create(name='Test app1 page', view='viewwork_tests_test_apps_app1:test_app_vw_page', hidden=False)
+        item3 = Menu.objects.create(name='Test app2 page', view='tests.test_apps.app2:test_app_vw_page', hidden=False)
+
+        response = self.client.get('/menu/')
+        menu = {item['id']: item['_url'] for item in json.loads(response.content)}
+        self.assertTrue(menu[item1.id] == f'/app/{settings.VW_PREFIX}test_app_vw_page/')
+        self.assertTrue(menu[item2.id] == f'/app1/{settings.VW_PREFIX}test_app_vw_page/')
+        self.assertTrue(menu[item3.id] == f'/app2/{settings.VW_PREFIX}test_app_vw_page/')
+
 
 class TestAppView(TestCase):
     def test_func_page(self):
@@ -154,6 +165,9 @@ class TestAppsView(TestCase):
 
     def test_app2_page(self):
         response = self.client.get('/app2/test_app_vw_page/')
+        self.assertContains(response, 'Test app2 page')
+
+        response = self.client.get(reverse('tests.test_apps.app2:test_app_vw_page'))
         self.assertContains(response, 'Test app2 page')
 
         response = self.client.get(reverse('tests.test_apps.app2:test_app_vw_page'))

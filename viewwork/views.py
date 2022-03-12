@@ -74,7 +74,10 @@ class MenuView(View):
                     except Resolver404:
                         continue
                 try:
-                    item['_url'] = reverse(f"{settings.VW_PREFIX}{item['view']}")
+                    if settings.USE_APP_NAMESPACE:
+                        item['_url'] = reverse(item['view'].replace(':', f':{settings.VW_PREFIX}'))
+                    else:
+                        item['_url'] = reverse(f"{settings.VW_PREFIX}{item['view']}")
                 except NoReverseMatch:
                     item['_url'] = item['url']
             if 'name_i18n' in item:
