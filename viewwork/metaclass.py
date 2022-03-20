@@ -44,10 +44,12 @@ class MetaViewWork(type):
             new_cls.vw_verbose_name = _(' '.join(cls_name))
 
         app = cls._get_class_app(new_cls)
+        new_cls.app_label = ''
         if app:
             vw_prefix = getattr(new_cls, 'vw_prefix', '').strip()
             new_cls.vw[app.label][vw_name] = new_cls
             new_cls.vw[app.label][f'{vw_prefix}{vw_name}'] = new_cls
+            new_cls.app_label = app.label
 
         return new_cls
 
