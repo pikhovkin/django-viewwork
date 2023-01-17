@@ -18,6 +18,9 @@ def reload_settings(setting, value, **kwargs):
     elif setting == 'VW_PREFIX':
         global VW_PREFIX
         VW_PREFIX = value
+    elif setting == 'VW_USE_APP_NAMESPACE':
+        global USE_APP_NAMESPACE
+        USE_APP_NAMESPACE = value
 
 
 setting_changed.connect(reload_settings)

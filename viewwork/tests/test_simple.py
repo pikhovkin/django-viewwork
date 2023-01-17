@@ -1,13 +1,29 @@
 import json
 
+from django.apps import apps
 from django.conf import settings as dj_settings
 from django.test import TestCase, override_settings
-from django.urls import reverse, exceptions
+from django.urls import reverse, exceptions, clear_url_caches, set_urlconf
 
 from viewwork.models import Menu
 from viewwork import settings
 
 from . import menu_id_list
+
+
+class override_settings_and_reload_urls(override_settings):
+    def _reload_urls(self):
+        clear_url_caches()
+        set_urlconf(None)
+        apps.get_app_config('viewwork').ready()
+
+    def enable(self):
+        super().enable()
+        self._reload_urls()
+
+    def disable(self):
+        super().disable()
+        self._reload_urls()
 
 
 class TestSimple(TestCase):
@@ -163,6 +179,21 @@ class TestAppsView(TestCase):
         with self.assertRaises(exceptions.NoReverseMatch):
             reverse('tests.test_apps.app1:test_app_vw_page')
 
+    @override_settings_and_reload_urls(
+        VW_USE_APP_NAMESPACE=False,
+    )
+    def test_app1_page_without_namespace(self):
+        response = self.client.get('/app1/test_app_vw_page/')
+        self.assertContains(response, 'Test app1 page')
+
+        response = self.client.get(reverse('viewwork_tests_test_apps_app1:test_app_vw_page'))
+        self.assertContains(response, 'Test app1 page')
+
+        self.assertTrue(reverse('test_app_vw_page') == '/app2/test_app_vw_page/')
+
+        with self.assertRaises(exceptions.NoReverseMatch):
+            reverse('tests.test_apps.app1:test_app_vw_page')
+
     def test_app2_page(self):
         response = self.client.get('/app2/test_app_vw_page/')
         self.assertContains(response, 'Test app2 page')
@@ -170,5 +201,12 @@ class TestAppsView(TestCase):
         response = self.client.get(reverse('tests.test_apps.app2:test_app_vw_page'))
         self.assertContains(response, 'Test app2 page')
 
-        response = self.client.get(reverse('tests.test_apps.app2:test_app_vw_page'))
+    @override_settings_and_reload_urls(
+        VW_USE_APP_NAMESPACE=False,
+    )
+    def test_app2_page_without_namespace(self):
+        response = self.client.get('/app2/test_app_vw_page/')
+        self.assertContains(response, 'Test app2 page')
+
+        response = self.client.get(reverse('test_app_vw_page'))
         self.assertContains(response, 'Test app2 page')
