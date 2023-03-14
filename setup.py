@@ -12,13 +12,13 @@ require_all = requirements + require_select2
 
 setup(
     name='django-viewwork',
-    version='0.7.0',
+    version='0.7.1',
     description='Collect views, generate urls and create menu',
     long_description=readme,
     long_description_content_type='text/markdown',
     author='Sergei Pikhovkin',
     author_email='s@pikhovkin.ru',
-    url='https://github.com/pikhovkin/django-viewwork',
+    url='https://github.com/piklema/django-viewwork',
     packages=[
         'viewwork',
     ],
