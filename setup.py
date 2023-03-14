@@ -28,7 +28,7 @@ setup(
         'all': require_all,
         'select2': require_select2,
     },
-    python_requires='>=3.8.*, <4.2.*',
+    python_requires='>=3.8, <4.2',
     license='MIT',
     zip_safe=False,
     classifiers=[
