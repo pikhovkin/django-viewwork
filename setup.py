@@ -12,7 +12,7 @@ require_all = requirements + require_select2
 
 setup(
     name='django-viewwork',
-    version='0.7.0',
+    version='0.8.0',
     description='Collect views, generate urls and create menu',
     long_description=readme,
     long_description_content_type='text/markdown',
@@ -28,7 +28,7 @@ setup(
         'all': require_all,
         'select2': require_select2,
     },
-    python_requires='>=3.8.*, <4.2.*',
+    python_requires='>=3.8,<4.0',
     license='MIT',
     zip_safe=False,
     classifiers=[
@@ -38,6 +38,7 @@ setup(
         'Framework :: Django :: 3.2',
         'Framework :: Django :: 4.0',
         'Framework :: Django :: 4.1',
+        'Framework :: Django :: 4.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
